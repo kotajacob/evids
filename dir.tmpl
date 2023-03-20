@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang='en'>
+	<head>
+		<meta charset='utf-8'>
+		<title>evids</title>
+		<link rel='stylesheet' href='/static/main.css'>
+		<link rel='shortcut icon' href='/static/favicon.png'>
+	</head>
+	<body>
+		<header>
+			<a href="/">
+				<img
+					id="evids"
+					src="/static/logo.png"
+					alt="EVIDS"
+					onmouseover=evids.src='/static/bold-logo.png'
+					onmouseout=evids.src='/static/logo.png'
+				></img>
+			</a>
+			<a href="{{.Path}}">
+			{{ if .Path }}
+				<img class="artist" src="/static{{.Path}}.png" alt="{{.Path}}">
+			{{ end }}
+			</a>
+		</header>
+		<main>
+			<ol class="heading">
+				<li class="name">NAME</li>
+				<li class="size">SIZE</li>
+				<li class="time">TIME</li>
+			</ol>
+			{{ range .Entries}}
+			<a href="{{.Path}}">
+				<ol class="entry">
+					<li class="name">{{.Name}}</li>
+					<li class="size">{{.Size}}</li>
+					<li class="time">{{.Time}}</li>
+				</ol>
+			</a>
+			{{end}}
+		</main>
+	</body>
+</html>

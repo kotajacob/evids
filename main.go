@@ -112,10 +112,13 @@ func main() {
 		errLog:  errLog,
 	}
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", app.dir)
+	srv := &http.Server{
+		Addr:     *addr,
+		ErrorLog: errLog,
+		Handler:  app.routes(),
+	}
 
 	infoLog.Printf("starting server on %s", *addr)
-	err := http.ListenAndServe(*addr, mux)
+	err := srv.ListenAndServe()
 	errLog.Fatal(err)
 }

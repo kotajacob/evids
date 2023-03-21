@@ -98,7 +98,6 @@ func (app *application) dir(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	addr := flag.String("addr", ":4000", "HTTP network address")
-	ui := flag.String("ui", "/etc/evids", "Path to css and ui files")
 	content := flag.String("path", "/var/www", "Path to serve")
 	flag.Parse()
 
@@ -114,10 +113,6 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
-
-	static := http.FileServer(http.Dir(*ui))
-	mux.Handle("/static/", http.StripPrefix("/static", static))
-
 	mux.HandleFunc("/", app.dir)
 
 	infoLog.Printf("starting server on %s", *addr)

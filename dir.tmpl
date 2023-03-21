@@ -3,23 +3,23 @@
 	<head>
 		<meta charset='utf-8'>
 		<title>evids</title>
-		<link rel='stylesheet' href='/static/main.css'>
-		<link rel='shortcut icon' href='/static/favicon.png'>
+		<link rel='stylesheet' href='/main.css'>
+		<link rel='shortcut icon' href='/favicon.png'>
 	</head>
 	<body>
 		<header>
 			<span><a href="/">
 				<img
 					id="evids"
-					src="/static/logo.png"
+					src="/logo.png"
 					alt="EVIDS"
-					onmouseover=evids.src='/static/bold-logo.png'
-					onmouseout=evids.src='/static/logo.png'
+					onmouseover=evids.src='/bold-logo.png'
+					onmouseout=evids.src='/logo.png'
 				></img>
 			</a></span>
 			{{ if .Artist }}
 			<span class="artist"><a href="{{.Artist}}">
-				<img class="artist" src="/static{{.Artist}}.png" alt="{{.Artist}}">
+				<img class="artist" src="{{.Artist}}/logo.png" alt="{{.Artist}}">
 			</a></span>
 			{{ end }}
 		</header>

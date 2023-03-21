@@ -1,10 +1,15 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
 
-func (app *application) routes() *http.ServeMux {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", app.dir)
+	"github.com/julienschmidt/httprouter"
+)
 
-	return mux
+func (app *application) routes() http.Handler {
+	router := httprouter.New()
+	router.HandlerFunc(http.MethodGet, "/", app.home)
+	router.HandlerFunc(http.MethodGet, "/:artist", app.artist)
+
+	return app.logRequest(router)
 }

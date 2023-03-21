@@ -5,8 +5,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
-	"strings"
 	"text/template"
 )
 
@@ -18,82 +16,9 @@ type application struct {
 	errLog  *log.Logger
 }
 
-type page struct {
+type ArtistPath struct {
 	Artist  string
-	Entries []entry
-}
-
-type entry struct {
-	Name string
-	Path string
-	Size int64
-	Time string
-}
-
-func (app *application) dir(w http.ResponseWriter, r *http.Request) {
-	systempath := filepath.Join(app.content, filepath.Clean(r.URL.Path))
-	info, err := os.Stat(systempath)
-	if err != nil {
-		app.errLog.Println(err)
-		http.NotFound(w, r)
-		return
-	}
-	if !info.IsDir() {
-		f, err := os.Open(systempath)
-		if err != nil {
-			app.errLog.Println(err)
-			http.NotFound(w, r)
-			return
-		}
-		http.ServeContent(w, r, systempath, info.ModTime(), f)
-		return
-	}
-
-	dirEntries, err := os.ReadDir(systempath)
-	if err != nil {
-		app.errLog.Println(err)
-		http.NotFound(w, r)
-		return
-	}
-
-	artist := strings.TrimPrefix(systempath, filepath.Clean(app.content))
-	var entries []entry
-	for _, e := range dirEntries {
-		name := e.Name()
-		if len(name) > 28 {
-			name = name[:25] + "..."
-		}
-		if e.IsDir() {
-			name += "/"
-		}
-
-		info, err := e.Info()
-		if err != nil {
-			app.errLog.Println(err)
-			http.NotFound(w, r)
-			return
-		}
-
-		entries = append(entries, entry{
-			Name: name,
-			Path: filepath.Join(artist, e.Name()),
-			Size: info.Size(),
-			Time: info.ModTime().Format("Jan _2 15:04 2006"),
-		})
-	}
-
-	err = app.ts.Execute(w, page{
-		Artist:  artist,
-		Entries: entries,
-	})
-	if err != nil {
-		app.errLog.Println(err)
-		http.Error(
-			w,
-			http.StatusText(http.StatusInternalServerError),
-			http.StatusInternalServerError,
-		)
-	}
+	Entries []DirEntry
 }
 
 func main() {

@@ -99,7 +99,7 @@ func (app *application) dir(w http.ResponseWriter, r *http.Request) {
 func main() {
 	addr := flag.String("addr", ":4000", "HTTP network address")
 	ui := flag.String("ui", "/etc/evids", "Path to css and ui files")
-	content := flag.String("path", "/var/www/html", "Path to serve")
+	content := flag.String("path", "/var/www", "Path to serve")
 	flag.Parse()
 
 	infoLog := log.New(os.Stdout, "INFO ", log.Ldate|log.Ltime)

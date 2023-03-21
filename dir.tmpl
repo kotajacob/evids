@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<header>
-			<a href="/">
+			<span><a href="/">
 				<img
 					id="evids"
 					src="/static/logo.png"
@@ -16,12 +16,12 @@
 					onmouseover=evids.src='/static/bold-logo.png'
 					onmouseout=evids.src='/static/logo.png'
 				></img>
-			</a>
-			<a href="{{.Path}}">
-			{{ if .Path }}
-				<img class="artist" src="/static{{.Path}}.png" alt="{{.Path}}">
+			</a></span>
+			{{ if .Artist }}
+			<span class="artist"><a href="{{.Artist}}">
+				<img class="artist" src="/static{{.Artist}}.png" alt="{{.Artist}}">
+			</a></span>
 			{{ end }}
-			</a>
 		</header>
 		<main>
 			<ol class="heading">

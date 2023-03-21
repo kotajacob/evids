@@ -8,13 +8,17 @@
 
 img {
 	image-rendering: pixelated;
-	height: calc(2rem + 2vw);
+	height: 100%;
 }
-header > a:last-child {
+.artist {
 	float: right;
 }
 header > * {
+	height: calc(2rem + 2vw);
+	display: inline-block;
 	margin: 0;
+	border-width: 3px;
+	border-style: inset;
 }
 
 body {

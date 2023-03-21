@@ -19,7 +19,7 @@ type application struct {
 }
 
 type page struct {
-	Path    string
+	Artist  string
 	Entries []entry
 }
 
@@ -31,31 +31,32 @@ type entry struct {
 }
 
 func (app *application) dir(w http.ResponseWriter, r *http.Request) {
-	path := filepath.Join(app.content, filepath.Clean(r.URL.Path))
-	info, err := os.Stat(path)
+	systempath := filepath.Join(app.content, filepath.Clean(r.URL.Path))
+	info, err := os.Stat(systempath)
 	if err != nil {
 		app.errLog.Println(err)
 		http.NotFound(w, r)
 		return
 	}
 	if !info.IsDir() {
-		f, err := os.Open(path)
+		f, err := os.Open(systempath)
 		if err != nil {
 			app.errLog.Println(err)
 			http.NotFound(w, r)
 			return
 		}
-		http.ServeContent(w, r, path, info.ModTime(), f)
+		http.ServeContent(w, r, systempath, info.ModTime(), f)
 		return
 	}
 
-	dirEntries, err := os.ReadDir(path)
+	dirEntries, err := os.ReadDir(systempath)
 	if err != nil {
 		app.errLog.Println(err)
 		http.NotFound(w, r)
 		return
 	}
 
+	artist := strings.TrimPrefix(systempath, filepath.Clean(app.content))
 	var entries []entry
 	for _, e := range dirEntries {
 		name := e.Name()
@@ -75,14 +76,14 @@ func (app *application) dir(w http.ResponseWriter, r *http.Request) {
 
 		entries = append(entries, entry{
 			Name: name,
-			Path: e.Name(),
+			Path: filepath.Join(artist, e.Name()),
 			Size: info.Size(),
 			Time: info.ModTime().Format("Jan _2 15:04 2006"),
 		})
 	}
 
 	err = app.ts.Execute(w, page{
-		Path:    strings.TrimPrefix(path, filepath.Clean(app.content)),
+		Artist:  artist,
 		Entries: entries,
 	})
 	if err != nil {

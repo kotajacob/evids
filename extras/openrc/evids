@@ -1,0 +1,12 @@
+#!/sbin/openrc-run
+
+description="EVIDS web server"
+command=${command:-/usr/sbin/evids}
+command_background=true
+pidfile="/run/${RC_SVCNAME}.pid"
+command_args="-addr :80"
+
+depend() {
+	need net
+	use dns logger netmount
+}

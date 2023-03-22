@@ -2,10 +2,10 @@ package main
 
 import (
 	"flag"
-	"html/template"
 	"log"
 	"net/http"
 	"os"
+	"text/template"
 )
 
 type application struct {

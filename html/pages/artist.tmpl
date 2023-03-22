@@ -10,9 +10,13 @@
 		></img>
 	</a></span>
 	{{ if .Artist }}
-	<span class="artist"><a href="/{{.Artist}}">
-		<img class="artist" src="/{{.Artist}}/{{.Artist}}.png" alt="{{.Artist}}">
-	</a></span>
+	<span class="artist">
+		<img
+		class="artist"
+		onclick="history.back()"
+		src="/{{.Artist}}/{{.Artist}}.png"
+		alt="{{.Artist}}">
+	</span>
 	{{ end }}
 </header>
 <main>

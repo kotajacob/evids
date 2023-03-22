@@ -2,9 +2,9 @@ package main
 
 import (
 	"embed"
-	"html/template"
 	"io/fs"
 	"path/filepath"
+	"text/template"
 )
 
 //go:embed "html"

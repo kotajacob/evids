@@ -12,6 +12,7 @@ img {
 }
 .artist {
 	float: right;
+	cursor: pointer;
 }
 header > * {
 	height: calc(2rem + 2vw);

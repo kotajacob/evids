@@ -16,6 +16,7 @@ func (app *application) artist(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
+	fmt.Println("STATED", path)
 	if !info.IsDir() {
 		f, err := os.Open(path)
 		if err != nil {

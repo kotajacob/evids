@@ -11,6 +11,17 @@
 	</a></span>
 </header>
 <main>
-	You're home now!
+	<ol class="heading">
+		<li class="name">NAME</li>
+		<li class="time">TIME</li>
+	</ol>
+	{{ range .}}
+	<a href="{{.Path}}">
+		<ol class="entry">
+			<li class="name">{{.Name}}</li>
+			<li class="time">{{.Time}}</li>
+		</ol>
+	</a>
+	{{end}}
 </main>
 {{end}}

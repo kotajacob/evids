@@ -16,11 +16,6 @@ type application struct {
 	errLog  *log.Logger
 }
 
-type ArtistPage struct {
-	Artist  string
-	Entries []DirEntry
-}
-
 func main() {
 	addr := flag.String("addr", ":4000", "HTTP network address")
 	content := flag.String("path", "/var/www", "Path to serve")

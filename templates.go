@@ -7,13 +7,13 @@ import (
 	"text/template"
 )
 
-//go:embed "html"
+//go:embed "ui"
 var EmbededFiles embed.FS
 
 func newTemplateCache() (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}
 
-	pages, err := fs.Glob(EmbededFiles, "html/pages/*.tmpl")
+	pages, err := fs.Glob(EmbededFiles, "ui/pages/*.tmpl")
 	if err != nil {
 		return nil, err
 	}
@@ -21,7 +21,7 @@ func newTemplateCache() (map[string]*template.Template, error) {
 	for _, page := range pages {
 		name := filepath.Base(page)
 		files := []string{
-			"html/base.tmpl",
+			"ui/base.tmpl",
 			page,
 		}
 

@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -15,7 +16,7 @@ type DirEntry struct {
 	Time string
 }
 
-func ListDir(path string) ([]DirEntry, error) {
+func ListVideos(path string) ([]DirEntry, error) {
 	dirEntries, err := os.ReadDir(path)
 	if err != nil {
 		return nil, err
@@ -24,6 +25,9 @@ func ListDir(path string) ([]DirEntry, error) {
 	var entries []DirEntry
 	for _, e := range dirEntries {
 		name := e.Name()
+		if !strings.HasSuffix(name, ".mp4") {
+			continue
+		}
 		if len(name) > 28 {
 			name = name[:25] + "..."
 		}

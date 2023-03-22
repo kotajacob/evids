@@ -1,0 +1,37 @@
+{{define "main"}}
+</head>
+<header>
+	<span><a href="/">
+		<img
+			id="evids"
+			src="/logo.png"
+			alt="EVIDS"
+			onmouseover="evids.src='/bold-logo.png'"
+			onmouseout="evids.src='/logo.png'"
+		></img>
+	</a></span>
+	{{ if .Artist }}
+	<span class="artist">
+		<img
+		class="artist"
+		onclick="history.back()"
+		src="/{{.Artist}}/{{.Artist}}.png"
+		alt="{{.Artist}}">
+	</span>
+	{{ end }}
+</header>
+<main>
+	<video
+		controls
+		width="100%"
+		height="auto"
+		preload="auto"
+	  >
+		<source src="{{.Video}}?direct" type="video/mp4" />
+	</video>
+	<span class="download"><a download href="{{.Video}}?direct">
+		DOWNLOAD
+	</span></a>
+</main>
+</body>
+{{end}}

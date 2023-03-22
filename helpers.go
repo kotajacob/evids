@@ -40,7 +40,7 @@ func ListDir(path string) ([]DirEntry, error) {
 			Name: name,
 			Path: filepath.Join(filepath.Base(path), e.Name()),
 			Size: info.Size(),
-			Time: info.ModTime().Format("Jan _2 15:04 2006"),
+			Time: info.ModTime().Format("Jan 02 15:04 2006"),
 		})
 	}
 	return entries, nil
@@ -86,7 +86,7 @@ func Released(path string) ([]DirEntry, error) {
 		released = append(released, DirEntry{
 			Name: name,
 			Path: record[1],
-			Time: t.Format("Jan _2 15:04 2006"),
+			Time: t.Format("Jan 02 15:04 2006"),
 		})
 	}
 

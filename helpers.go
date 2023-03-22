@@ -67,7 +67,11 @@ func Released(path string) ([]DirEntry, error) {
 		}
 
 		now := time.Now()
-		t, err := time.ParseInLocation(time.DateTime, record[0], now.Location())
+		t, err := time.ParseInLocation(
+			"2006-01-02 15:04:05",
+			record[0],
+			now.Location(),
+		)
 		if err != nil {
 			return nil, err
 		}

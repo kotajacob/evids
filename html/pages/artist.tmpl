@@ -1,0 +1,34 @@
+{{define "main"}}
+<header>
+	<span><a href="/">
+		<img
+			id="evids"
+			src="/logo.png"
+			alt="EVIDS"
+			onmouseover="evids.src='/bold-logo.png'"
+			onmouseout="evids.src='/logo.png'"
+		></img>
+	</a></span>
+	{{ if .Artist }}
+	<span class="artist"><a href="/{{.Artist}}">
+		<img class="artist" src="/{{.Artist}}/{{.Artist}}.png" alt="{{.Artist}}">
+	</a></span>
+	{{ end }}
+</header>
+<main>
+	<ol class="heading">
+		<li class="name">NAME</li>
+		<li class="size">SIZE</li>
+		<li class="time">TIME</li>
+	</ol>
+	{{ range .Entries}}
+	<a href="{{.Path}}">
+		<ol class="entry">
+			<li class="name">{{.Name}}</li>
+			<li class="size">{{.Size}}</li>
+			<li class="time">{{.Time}}</li>
+		</ol>
+	</a>
+	{{end}}
+</main>
+{{end}}

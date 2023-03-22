@@ -2,21 +2,21 @@ package main
 
 import (
 	"flag"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
-	"text/template"
 )
 
 type application struct {
-	content string
-	ts      *template.Template
+	dir           string
+	templateCache map[string]*template.Template
 
 	infoLog *log.Logger
 	errLog  *log.Logger
 }
 
-type ArtistPath struct {
+type ArtistPage struct {
 	Artist  string
 	Entries []DirEntry
 }
@@ -29,12 +29,15 @@ func main() {
 	infoLog := log.New(os.Stdout, "INFO ", log.Ldate|log.Ltime)
 	errLog := log.New(os.Stdout, "ERROR ", log.Ldate|log.Ltime|log.Lshortfile)
 
-	ts := template.Must(template.ParseFS(EmbededFiles, "dir.tmpl"))
+	tc, err := newTemplateCache()
+	if err != nil {
+		errLog.Fatal(err)
+	}
 	app := &application{
-		content: *content,
-		ts:      ts,
-		infoLog: infoLog,
-		errLog:  errLog,
+		dir:           *content,
+		templateCache: tc,
+		infoLog:       infoLog,
+		errLog:        errLog,
 	}
 
 	srv := &http.Server{
@@ -44,6 +47,6 @@ func main() {
 	}
 
 	infoLog.Printf("starting server on %s", *addr)
-	err := srv.ListenAndServe()
+	err = srv.ListenAndServe()
 	errLog.Fatal(err)
 }

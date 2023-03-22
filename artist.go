@@ -1,18 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
 )
 
-func (app *application) home(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("home"))
-}
-
 func (app *application) artist(w http.ResponseWriter, r *http.Request) {
-	path := filepath.Join(app.content, filepath.Clean(r.URL.Path))
+	path := filepath.Join(app.dir, filepath.Clean(r.URL.Path))
 	info, err := os.Stat(path)
 	if err != nil {
 		app.errLog.Println(err)
@@ -30,14 +27,25 @@ func (app *application) artist(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	artist := strings.TrimPrefix(path, filepath.Clean(app.content))
+	artist := strings.TrimPrefix(path, filepath.Clean(app.dir)+"/")
 	entries, err := ListDir(path)
 	if err != nil {
 		app.errLog.Println(err)
 		http.NotFound(w, r)
 		return
 	}
-	err = app.ts.Execute(w, ArtistPath{
+
+	tsName := "artist.tmpl"
+	ts, ok := app.templateCache[tsName]
+	if !ok {
+		app.errLog.Println(fmt.Errorf(
+			"the template %s is missing",
+			tsName,
+		))
+		http.NotFound(w, r)
+		return
+	}
+	err = ts.ExecuteTemplate(w, "base", ArtistPage{
 		Artist:  artist,
 		Entries: entries,
 	})
